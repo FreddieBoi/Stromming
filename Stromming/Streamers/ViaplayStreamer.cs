@@ -22,7 +22,7 @@ namespace Stromming.Streamers {
             this.uriBuilder.Query = $"query={Uri.EscapeDataString(term)}";
             string content = Utils.GetContent(this.uriBuilder.ToString());
             var json = JsonConvert.DeserializeObject<JObject>(content);
-            this.Count = json["_embedded"].Value<JObject>()["viaplay:blocks"].Value<JArray>().FirstOrDefault()["totalProductCount"].Value<long>();
+            this.Count = json?["_embedded"]?.Value<JObject>()?["viaplay:blocks"]?.Value<JArray>()?.FirstOrDefault()?["totalProductCount"]?.Value<long>() ?? 0;
         }
 
     }

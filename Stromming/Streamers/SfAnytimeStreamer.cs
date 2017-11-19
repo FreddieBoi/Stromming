@@ -1,7 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace Stromming.Streamers {
@@ -23,7 +22,7 @@ namespace Stromming.Streamers {
             string data = "{\"requests\":[{\"indexName\":\"prod_sfanytime_movies\",\"params\":\"query=" + Uri.EscapeDataString(term) + "&numericFilters=adult%3D0%2C%20available_in_se%3D1&hitsPerPage=60&maxValuesPerFacet=3&page=0&attributesToRetrieve=mediaid%2Cproducttype%2Cproducttypeid%2Ctitle%2Ctitle_sv%2Ctitle_no%2Ctitle_da%2Ctitle_fi%2Ccover_id%2Ccover_no%2Ccover_sv%2Ccover_da%2Ccover_fi&distinct=true&facets=%5B%5D&tagFilters=\"}]}";
             string content = Utils.PostContent(this.uriBuilder.ToString(), data);
             var json = JsonConvert.DeserializeObject<JObject>(content);
-            this.Count = json["results"].Value<JArray>().FirstOrDefault()["nbHits"].Value<long>();
+            this.Count = json?["results"]?.Value<JArray>()?.FirstOrDefault()?["nbHits"]?.Value<long>() ?? 0;
         }
 
     }
